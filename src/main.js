@@ -43,7 +43,7 @@ export default app
   },
   mounted: function() {
     // check for current user if he is still login
-    console.log("Mounted");
+    //console.log("Mounted");
     store.dispatch('getCurrentUser')
   },
   updated: function () {
