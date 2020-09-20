@@ -1,5 +1,4 @@
 # vue.js forum
-# inital code taken from https://webmobtuts.com/frontend-development/vuejs-tutorials/, and tuned to specific needs
 
 ## Project setup
 ```
@@ -23,3 +22,9 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### references
+
+```
+inital code taken from https://webmobtuts.com/frontend-development/vuejs-tutorials/, and tuned to specific needs
+```
