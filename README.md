@@ -1,5 +1,5 @@
-# forum
-# https://webmobtuts.com/frontend-development/vuejs-tutorials/building-a-simple-forum-with-vue-js-vuex-and-firebase-part1-authentication/
+# vue.js forum
+# inital code taken from https://webmobtuts.com/frontend-development/vuejs-tutorials/, and tuned to specific needs
 
 ## Project setup
 ```
