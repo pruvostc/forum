@@ -1,24 +1,26 @@
 import firebase from "firebase";
+import {DBconfig} from '../hiddenconfig'
 
-// add your own config params, get them from 
-// https://console.firebase.google.com/project/<project-name>/settings/general/
+// Load values from hidden configuration
+var config = {
+  apiKey: DBconfig.apiKey, 
+  authDomain: DBconfig.authDomain,
+  databaseURL: DBconfig.databaseURL,
+  storageBucket: DBconfig.storageBucket
+};
+
 /*
 var config = {
-  apiKey: "<your api key>",
-  authDomain: "<your auth domain>",
-  databaseURL: "<your database url>",
-  storageBucket: "<your storage bucket>", // e.g. "gs://forum12345.appspot.com"
-};
-*/
-var config = {
-  apiKey: "AIzaSyBDqBt1yca3n4mqqOaw4lpwQRivpMCeBXc",
+  apiKey: API_KEY,
   authDomain: "localhost",
   databaseURL: "https://forum-34f56.firebaseio.com",
   storageBucket: "gs://forum-34f56.appspot.com"
 };
+*/
+
+
 
 firebase.initializeApp(config);
-
 var db = firebase.database();
 
 export default {
