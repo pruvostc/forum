@@ -1,0 +1,28 @@
+/*
+When using Google Firebase, a series of security rules will be required to define who is allowed to 
+read or write to the database. By default no one can read or write... Below is the basic starting 
+security rules for this project anyone can read, only signed in users (Authenticated) can 
+write to the database.
+*/
+
+/* visit https://firebase.google.com/docs/database/security for more rule settings details */
+/* and also https://firebase.google.com/docs/rules/rules-and-auth */
+{
+  "rules": {
+    ".read": true, // anyone can read
+    ".write": "auth.uid != null", // you need to be authenticated
+    "topics": {
+      // see https://firebase.google.com/docs/database/security/indexing-data
+      ".indexOn": ["forum_id", "user_id", "forum_id_user_id", "userId_forumId"]
+    },
+    "replies": {
+      ".indexOn": ["topic_id"]
+    },
+    "forums": {
+      ".indexOn": ["user_id"]
+    },
+    "user": {
+      ".indexOn": ["uid"]
+    }
+  }
+}
