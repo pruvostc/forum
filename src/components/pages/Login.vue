@@ -17,7 +17,11 @@
           <div class="form-group">
             <label for="password">Password</label>
             <input
-              type="password"  name="password" class="form-control" placeholder="Password" v-model="password"
+              type="password"
+              name="password"
+              class="form-control"
+              placeholder="Password"
+              v-model="password"
             />
           </div>
 
@@ -105,7 +109,6 @@ export default {
         self.$store.state.auth.email,
         self.$store.state.auth.password,
         function (user) {
-
           setTimeout(() => {
             self.isLoading = false;
 
@@ -116,6 +119,10 @@ export default {
             self.$store.commit("setCurrUserEmail", user.user.email);
             self.$store.commit("setCurrUserUid", user.user.uid);
             self.$store.commit("setCurrUserStatus", 1);
+            // load user forums after successful login
+            api.userForums(user.user.uid, function (response) {
+              self.$store.commit("setUserForums", response);
+            });
 
             self.$router.push("/");
           }, 1500);

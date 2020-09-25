@@ -14,17 +14,23 @@
     }
     */
 
-
+/* secret keys */
+export const DBconfig = {
+    apiKey: 'AIzaSyBDqBt1yca3n4mqqOaw4lpwQRivpMCeBXc', // TO BE CHANGED
+    authDomain: 'localhost',
+    databaseURL: 'https://forum-34f56.firebaseio.com',
+    storageBucket: 'gs://forum-34f56.appspot.com'
+}
 
 /* secret keys */
 // add your own config params, get them from 
 // https://console.firebase.google.com/project/<project-name>/settings/general/
 // DO NOT COMMIT THE FILE WITH YOUR API KEY
-
+/*
 export const DBconfig = {
     apiKey: '<here goes your FIREBASE_API_KEY>', // TO BE CHANGED
     authDomain: 'localhost',
     databaseURL: '<FIREBASE database URL>', // e.g. https://forum-83f21.firebaseio.com
     storageBucket: '<FIREBASE_STORAGE_BUCKET>' // e.g. 'gs://forum-83f21.appspot.com'
 }
-
+*/

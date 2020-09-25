@@ -1,24 +1,13 @@
 import firebase from "firebase";
-import {DBconfig} from '../hiddenconfig'
+import { DBconfig } from '../hiddenconfig';
 
 // Load values from hidden configuration
 var config = {
-  apiKey: DBconfig.apiKey, 
+  apiKey: DBconfig.apiKey,
   authDomain: DBconfig.authDomain,
   databaseURL: DBconfig.databaseURL,
   storageBucket: DBconfig.storageBucket
 };
-
-/*
-var config = {
-  apiKey: API_KEY,
-  authDomain: "localhost",
-  databaseURL: "https://forum-34f56.firebaseio.com",
-  storageBucket: "gs://forum-34f56.appspot.com"
-};
-*/
-
-
 
 firebase.initializeApp(config);
 var db = firebase.database();
@@ -91,7 +80,6 @@ export default {
 
   //update of a forum
   updateForum(title, content, key) {
-
     db.ref("forums/" + key).update({ title: title, content: content });
   },
 
@@ -107,6 +95,69 @@ export default {
     forumRef.on('value', function (snapshot) {
       callback(snapshot.val());
     });
-  }
+  },
+  getForumByKey(key, callback) {
+    var itemRef = db.ref('forums').child(key);
+    var topicsRef = db.ref('topics').orderByChild("forum_id").equalTo(key);
 
+    itemRef.once('value', function (snapshot) {
+      callback(snapshot.val(), 'forum')
+    });
+
+    topicsRef.on('value', function (snapshot) {
+      callback(snapshot.val(), 'topics')
+    });
+  },
+  getMyTopics(forum_key, user_key, callback) {
+    var topicsRef = db.ref('topics').orderByChild("userId_forumId").equalTo(user_key + "_" + forum_key);
+
+    topicsRef.on('value', function (snapshot) {
+      callback(snapshot.val());
+    });
+  },
+  addTopic(title, content, forum_id, user_id) {
+    var forumRef = db.ref('topics');
+    var forumPush = forumRef.push();
+
+    forumPush.set({
+      title: title,
+      content: content,
+      user_id: user_id,
+      created_at: (new Date()).toLocaleString(),
+      forum_id: forum_id,
+      view_count: 0,
+      userId_forumId: user_id + "_" + forum_id
+    });
+  },
+  updateTopic(title, content, key) {
+
+    db.ref("topics/" + key).update({ title: title, content: content });
+  },
+  deleteTopic(key) {
+    db.ref("topics/" + key).remove();
+  },
+  updateTopicViewCount(key) {
+    var topicRef = db.ref('topics').child(key).child('view_count');
+
+    topicRef.transaction(function (views) {
+      // if (views) {
+      views = views + 1;
+      // }
+      return views;
+    });
+  },
+  getTopicByKey(key, callback) {
+
+    var topicRef = db.ref('topics').child(key);
+    topicRef.on('value', function (snapshot) {
+      var topicVal = snapshot.val()
+      var userRef = db.ref('users').child(topicVal.user_id)
+      userRef.on('value', function (snapshotUser) {
+        var forumRef = db.ref('forums').child(topicVal.forum_id)
+        forumRef.on('value', function (snapshotForum) {
+          callback(topicVal, snapshotUser.val(), snapshotForum.val())
+        });
+      });
+    });
+  }
 }

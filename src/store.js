@@ -21,9 +21,14 @@ export default new Vuex.Store(
             },
             forum: {            // this object will be used when adding and editing forum
                 title: "",
-                content: ""
+                content: ""     // this object: TODO ensure UID is added too
             },
-            userForums: []      // user forums in case he is login
+            userForums: [],      // user forums when signed in
+            userTopicss: [],     // user topics when signed in
+            topic: {
+                title: "",
+                content: ""
+            }
         },
         mutations: {
             setAuthEmail(state, data) {
@@ -58,7 +63,16 @@ export default new Vuex.Store(
             },
             setUserForums(state, data) {
             state.userForums = data
-            }          
+            },
+            setUserTopics(state, data) {
+                state.userTopics = data
+            },
+            setTopicTitle(state, data) {
+                state.topic.title = data
+            },
+            setTopicContent(state, data) {
+                state.topic.content = data
+            }   
         },
         actions: {
             getCurrentUser({ commit }) {

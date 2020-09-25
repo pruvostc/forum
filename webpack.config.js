@@ -24,7 +24,6 @@ if (env === 'production') {
       }
     }
   ));
- 
   appName = appName + '.min.js';
 } else {
   appName = appName + '.js';

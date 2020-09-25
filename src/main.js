@@ -35,16 +35,26 @@ export default app
 */
 
 
- new Vue({
+new Vue({
   router,
   store,
   created: function () {
     document.getElementById("loading").style.display = "block";
   },
-  mounted: function() {
+  mounted: function () {
     // check for current user if he is still login
     //console.log("Mounted");
     store.dispatch('getCurrentUser')
+
+    // if user is already login then load user forums
+    setTimeout(
+      () => {
+        if (store.state.currentUser.status == 1) {
+          store.dispatch('getUserForums', store.state.currentUser);
+        }
+      },
+      2000
+    )
   },
   updated: function () {
 
