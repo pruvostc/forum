@@ -116,10 +116,10 @@ export default {
     });
   },
   addTopic(title, content, forum_id, user_id) {
-    var forumRef = db.ref('topics');
-    var forumPush = forumRef.push();
+    var topicsRef = db.ref('topics');
+    var topicPush = topicsRef.push();
 
-    forumPush.set({
+    topicPush.set({
       title: title,
       content: content,
       user_id: user_id,
@@ -158,6 +158,100 @@ export default {
           callback(topicVal, snapshotUser.val(), snapshotForum.val())
         });
       });
+    });
+  },
+  getHomeLatestForums(callback) {
+    var ref = db.ref("forums");
+
+    ref.once("value", function (snapshot) {
+
+      if (snapshot.val() != null) {
+        snapshot.forEach(function (forum) {
+          var forumKey = forum.key;
+          var forumData = forum.val();
+          forumData.key = forumKey;
+          forumData.topics = [];
+
+          var topicsRef = db.ref("topics").orderByChild("forum_id").equalTo(forumKey);
+
+
+          topicsRef.on("child_added", function (topics) {
+            //console.log(snapshot.key);
+
+            var topicsData = topics.val();
+            topicsData.key = topics.key;
+            topicsData.username = "";
+
+            var usersRef = db.ref("users/" + topicsData.user_id);
+
+            usersRef.on("value", function (user) {
+              topicsData.username = user.val().name;
+
+              forumData.topics.push(topicsData);
+            });
+          });
+          callback(forumData);
+        });
+      } else {
+        callback(null);
+      }
+
+    }, function (error) {
+      console.log("Error: " + error.code);
+    });
+  },
+  getRepliesByTopicKey(key, callback) {
+    var repliesRef = db.ref('replies').orderByChild("topic_id").equalTo(key)
+
+    repliesRef.on('value', function (snapshot) {
+
+      if (snapshot.val() != null) {
+
+        snapshot.forEach(function (reply) {
+
+          var repliesData = reply.val();
+          repliesData.username = "";
+
+          db.ref("users/" + repliesData.user_id).once("value", function (user) {
+            repliesData.username = user.val().name;
+
+            callback(repliesData);
+          });
+        });
+      } else {
+        callback(null);
+      }
+    });
+  },
+  updateRepliesByTopicKey(key, callback) {
+    var repliesRef = db.ref('replies').orderByChild("topic_id").equalTo(key)
+
+    repliesRef.on('child_added', function (snapshot) {
+
+      if (snapshot.val() != null) {
+
+        var repliesData = snapshot.val();
+        repliesData.username = "";
+
+        db.ref("users/" + repliesData.user_id).once("value", function (user) {
+          repliesData.username = user.val().name;
+
+          callback(repliesData);
+        });
+      } else {
+        callback(null);
+      }
+    });
+  },
+  addReply(content, topic_id, user_id) {
+    var replyRef = db.ref('replies');
+    var replyPush = replyRef.push();
+
+    replyPush.set({
+      content: content,
+      user_id: user_id,
+      created_at: (new Date()).toLocaleString(),
+      topic_id: topic_id
     });
   }
 }

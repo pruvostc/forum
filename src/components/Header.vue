@@ -1,7 +1,7 @@
 <template>
  <header class="panel-heading">
         <strong class="heading">
-        <router-link to="/">Simple Forum</router-link>
+        <router-link to="/">Forum - Home</router-link>
         </strong>
  
         <div class="pull-right">

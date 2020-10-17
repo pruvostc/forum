@@ -6,7 +6,7 @@
           <i class="glyphicon glyphicon-th-list"></i> My Forums
         </h3>
         <hr />
-        <h4>this.$store.state.</h4>
+        <!--h4>{{this.$store.state}}</h4-->
       </section>
     </section>
     <hr />
