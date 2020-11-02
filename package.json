@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -32,6 +32,9 @@
     "root": true,
     "env": {
       "node": true
+    },
+    "globals": {
+      "__webpack_public_path__": "writable"
     },
     "extends": [
       "plugin:vue/essential",

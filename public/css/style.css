@@ -19,3 +19,11 @@ li.emotion-list a {
 li.emotion-list:hover {
     background-color: #faeb94;
 }
+div.heading {
+    display: inline-block;
+    padding-top: 8px;
+    font-weight: 700;
+}
+.spaced {
+    margin-right:5px;
+}
